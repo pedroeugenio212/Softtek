@@ -1,6 +1,6 @@
 package br.com.softtek.entity;
 
-class Analista {
+public class Analista {
     private int id;
     private Grupo grupo;
     private String nome;
