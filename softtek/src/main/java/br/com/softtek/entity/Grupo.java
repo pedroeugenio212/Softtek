@@ -1,6 +1,6 @@
 package br.com.softtek.entity;
 
-class Grupo {
+public class Grupo {
     private int id;
     private String nome;
 
