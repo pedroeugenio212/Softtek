@@ -1,6 +1,6 @@
 package br.com.softtek.entity;
 
-class Categoria {
+public class Categoria {
     private int id;
     private Sintoma sintoma;
     private Tipo tipo;
