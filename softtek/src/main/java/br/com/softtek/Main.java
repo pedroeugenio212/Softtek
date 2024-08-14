@@ -19,7 +19,7 @@ public class Main
                 switch (op)
                 {
                     case 1 -> util.visualizarChamados();
-                    case 0 -> System.out.println("Finalizando o programa");
+                    case 0 -> System.out.println("\nFinalizando o programa");
                     default -> System.out.println("\nOpção inválida");
                 }
             } catch (InputMismatchException e)
