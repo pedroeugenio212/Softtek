@@ -3,7 +3,7 @@ package br.com.softtek.entity;
 public class Usuario {
     private int id;
     private String nome;
-    private String email;
+    public String email;
     private String senha;
     private String descricao;
     private String telefone;

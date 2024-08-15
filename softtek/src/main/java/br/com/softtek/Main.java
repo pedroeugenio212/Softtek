@@ -10,16 +10,16 @@ public class Main
         util.Instanciar();
         int op;
 
-        System.out.println("\n\n ------------------- Bem vindo a Softtek Help Center ------------------- \n");
         do
         {
             try
-            {
+            {   
+                util.Login();                
                 op = util.TelaMenu();
                 switch (op)
                 {
                     case 1 -> util.visualizarChamados();
-                    case 0 -> System.out.println("Finalizando o programa");
+                    case 0 -> System.out.println("\nFinalizando o programa");
                     default -> System.out.println("\nOpção inválida");
                 }
             } catch (InputMismatchException e)
@@ -29,5 +29,6 @@ public class Main
                 op = -1;
             }
         } while (op != 0);
+        
     }
 }

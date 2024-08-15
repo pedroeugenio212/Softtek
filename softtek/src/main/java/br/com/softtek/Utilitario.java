@@ -10,8 +10,9 @@ import br.com.softtek.entity.Sintoma;
 import br.com.softtek.entity.Tarefa;
 import br.com.softtek.entity.Usuario;
 
+// import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
-
+// import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Utilitario {
@@ -153,23 +154,51 @@ public class Utilitario {
         usuario1
             .setId(1)
             .setNome("Roberto Almeida Santos")
-            .setEmail("robertoAlmeidaSantos@gmail.com")
-            .setSenha("xxxxxxxxxxxxx")
+            .setEmail("roberto@email.com")
+            .setSenha("123456")
             .setDescricao("Descrição usuário 1")
             .setTelefone("(11) 97879 - 9901");
         usuario2
             .setId(2)
             .setNome("Ana Maria de Souza")
-            .setEmail("anams@hotmail.com")
-            .setSenha("xxxxxxxxxxxxx")
+            .setEmail("ana@email.com")
+            .setSenha("ABC123")
             .setDescricao("Descrição usuário 2")
             .setTelefone("(21) 98871 - 5241");
     }
 
-    public int TelaMenu()
-    {
+    public void Login() {
+
+        boolean acesso = false;
+
+        String acesso_email[] = {usuario1.getEmail(), usuario2.getEmail()};
+        String acesso_senha[] = {usuario1.getSenha(), usuario2.getSenha()};
+
+        System.out.println("\n\n ------------------- Iniciando ------------------- \n");
+        System.out.println("\nPara acessar o programa, por favor faça o login.\n");
+
+        do {
+            System.out.print("Insira o e-mail: ");
+            String email = sc.next();
+            System.out.print("Insira a senha: ");
+            String senha = sc.next();
+
+            for (int i = 0; i < acesso_email.length; i++) {
+                if (email.equals(acesso_email[i]) && senha.equals(acesso_senha[i])) {
+                    acesso = true;
+                    break;
+                } 
+            }
+
+            System.out.println("\nUsuário não encontrado! Tente novamente.\n");
+            
+        } while (!acesso);   
+    }
+
+    public int TelaMenu() {
+        System.out.println("\n\n ------------------- Bem vindo a Softtek Help Center ------------------- \n");
         System.out.println("""
-                \n--------------------------------------------------------------------------
+                \n-------------------------------------------------------------------------
 
                 Selecione uma das opções a seguir:      
                 
