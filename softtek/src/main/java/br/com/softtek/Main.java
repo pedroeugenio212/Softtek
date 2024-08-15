@@ -10,11 +10,11 @@ public class Main
         util.Instanciar();
         int op;
 
-        System.out.println("\n\n ------------------- Bem vindo a Softtek Help Center ------------------- \n");
         do
         {
             try
-            {
+            {   
+                util.Login();                
                 op = util.TelaMenu();
                 switch (op)
                 {
@@ -29,5 +29,6 @@ public class Main
                 op = -1;
             }
         } while (op != 0);
+        
     }
 }
