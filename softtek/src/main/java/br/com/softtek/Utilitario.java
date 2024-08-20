@@ -12,6 +12,7 @@ import br.com.softtek.entity.Usuario;
 
 // import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 // import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -44,7 +45,7 @@ public class Utilitario {
             .setId(1)
             .setGrupo(grupo1)
             .setNome("Ricardo Almeida Pires")
-            .setEmail("Ricardo.Almeida@sofftekHP.com.br")
+            .setEmail("teste")
             .setCategoria(null);
         analista2
             .setId(2)
@@ -110,10 +111,10 @@ public class Utilitario {
             .setUltimaAtualizacao(LocalDateTime.of(2024, 7, 11, 13, 16, 57));
         grupo1
             .setId(1)
-            .setNome("Análise de danos");
+            .setNome("Dano");
         grupo2
             .setId(2)
-            .setNome("Resolução de problemas");
+            .setNome("Analise");
         local1
             .setId(1)
             .setNome("Escritório Rio de Janeiro")
@@ -154,7 +155,7 @@ public class Utilitario {
         usuario1
             .setId(1)
             .setNome("Roberto Almeida Santos")
-            .setEmail("roberto@email.com")
+            .setEmail("testeusuario")
             .setSenha("123456")
             .setDescricao("Descrição usuário 1")
             .setTelefone("(11) 97879 - 9901");
@@ -167,46 +168,80 @@ public class Utilitario {
             .setTelefone("(21) 98871 - 5241");
     }
 
-    public void Login() {
+    public void LoginUsuario() {
 
         boolean acesso = false;
 
-        String acesso_email[] = {usuario1.getEmail(), usuario2.getEmail()};
+        String acesso_emailUsuario[] = {usuario1.getEmail(), usuario2.getEmail()};
         String acesso_senha[] = {usuario1.getSenha(), usuario2.getSenha()};
-
-        System.out.println("\n\n ------------------- Iniciando ------------------- \n");
-        System.out.println("\nPara acessar o programa, por favor faça o login.\n");
+            
+        System.out.println("\nAcessando como Usuário.\n");
 
         do {
+
             System.out.print("Insira o e-mail: ");
             String email = sc.next();
             System.out.print("Insira a senha: ");
             String senha = sc.next();
 
-            for (int i = 0; i < acesso_email.length; i++) {
-                if (email.equals(acesso_email[i]) && senha.equals(acesso_senha[i])) {
+            for (int i = 0; i < acesso_emailUsuario.length; i++) {
+                if (email.equals(acesso_emailUsuario[i]) && senha.equals(acesso_senha[i])) {
                     acesso = true;
                     break;
-                } 
+                } else {
+                    System.out.println("\nUsuário não encontrado! Tente novamente\n");
+                    break;
+                }
             }
-
-            System.out.println("\nUsuário não encontrado! Tente novamente.\n");
-            
-        } while (!acesso);   
+        } while (!acesso); 
     }
 
-    public int TelaMenu() {
-        System.out.println("\n\n ------------------- Bem vindo a Softtek Help Center ------------------- \n");
-        System.out.println("""
-                \n-------------------------------------------------------------------------
+    public void LoginAnalista() {
+        boolean acesso = false;
 
-                Selecione uma das opções a seguir:      
-                
-                1 - Visualizar chamados abertos
-                0 - Sair do aplicativo
-                
-                --------------------------------------------------------------------------\n""");
-        System.out.print("Digite: ");
+        String acesso_email[] = {analista1.getEmail(), analista2.getEmail(), analista3.getEmail(), analista4.getEmail()};
+        String acesso_grupo[] = {analista1.getGrupo().getNome(), analista2.getGrupo().getNome(), analista3.getGrupo().getNome(), analista4.getGrupo().getNome()};
+
+        System.out.println("\nAcessando como Analista.\n");
+
+        do {
+            System.out.print("Insira o e-mail: ");
+            String email = sc.next();
+            System.out.print("Insira o nome do seu grupo: ");
+            String grupo = sc.next();
+
+            for (int i = 0; i < acesso_email.length; i++) {
+                if (email.equals(acesso_email[i]) && grupo.equals(acesso_grupo[i])) {
+                    acesso = true;
+                    break;
+                } else {
+                    System.out.println("\nAnalista não encontrado. Tente novamente!\n");
+                    break;
+                }
+            } 
+        } while (!acesso);
+    }
+
+    public int MenuUsuario() {
+        System.out.println("\n Acessando como Usuário... \n");
+        System.out.println("\n\n ------------------- Bem vindo a Softtek Help Center ------------------- \n");
+        System.out.println("Selecione uma das opções a seguir: "); 
+        // Colocar as opções das funcionalidades de cada acesso aqui
+        System.out.println("1 ---- Funcionalidade 1");
+        System.out.println("2 ---- Funcionalidade 2");
+        System.out.print("\nDigite: ");
+        int op = sc.nextInt();
+        return op;
+    }
+
+    public int MenuAnalista() {
+        System.out.println("\n Acessando como Analista... \n");
+        System.out.println("\n\n ------------------- Bem vindo a Softtek Help Center ------------------- \n");
+        // Colocar as opções das funcionalidades de cada acesso aqui
+        System.out.println("Selecione uma das opções a seguir: "); 
+        System.out.println("1 ---- Funcionalidade 1");
+        System.out.println("2 ---- Funcionalidade 2");
+        System.out.print("\nDigite: ");
         int op = sc.nextInt();
         return op;
     }
@@ -248,6 +283,5 @@ public class Utilitario {
         "\nData de abertura: " + chamado2.getAbertura() +
         "\nÚltima atualização: " + chamado2.getUltimaAtualizacao());    
     }
-
 
 }
