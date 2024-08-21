@@ -58,7 +58,13 @@ public class Categoria {
         FUNCIONAL_SAP,
         EQUIPAMENTO_TI,
         SISTEMAS,
-        OUTRAS_SOLICITACOES
+        OUTRAS_SOLICITACOES;
+
+        @Override
+        public String toString() {
+        String name = name().toLowerCase(); 
+        return Character.toUpperCase(name.charAt(0)) + name.substring(1).replace('_', ' ');
+        }
     }
     public enum SubTipo {
         ADAPT,
@@ -69,6 +75,12 @@ public class Categoria {
         ALTERACAO_PERFIL,
         LIBERACAO_ACESSO,
         SOLICITACAO,
-        TROCA_EQUIPAMENTO
+        TROCA_EQUIPAMENTO;
+
+        @Override
+        public String toString() {
+        String name = name().toLowerCase(); 
+        return Character.toUpperCase(name.charAt(0)) + name.substring(1).replace('_', ' ');
+        }
     }
 }

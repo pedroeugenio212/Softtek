@@ -65,7 +65,16 @@ public class Analista {
     }
     
     public enum Categoria {
-    
+        AMS,
+        SERVICE_DESK,
+        ACESSO,
+        FIELD;
+
+        @Override
+        public String toString() {
+        String name = name().toLowerCase(); 
+        return Character.toUpperCase(name.charAt(0)) + name.substring(1).replace('_', ' ');
+        }
     }
     
 }

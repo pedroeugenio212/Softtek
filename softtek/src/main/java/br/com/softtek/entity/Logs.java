@@ -1,6 +1,9 @@
 package br.com.softtek.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Logs {
     private int id;
@@ -68,4 +71,15 @@ public class Logs {
         return this;
     }
     
+    public static void exibirLogs(List<Logs> logs, Chamado chamado) {
+        List<Logs> chamadoLogs = new ArrayList<>();
+        System.out.println("\nLogs: ");
+        for(Logs log : logs) {
+            if(log.getChamado().getId() == chamado.getId())
+                chamadoLogs.add(log);
+        }
+        for(Logs log : chamadoLogs) {
+            System.out.println("\n" + log.getData().format(DateTimeFormatter.ofPattern("dd/MM")) + " - " + log.getDescricao());
+        }
+    }
 }

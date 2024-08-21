@@ -7,13 +7,11 @@ import br.com.softtek.entity.Grupo;
 import br.com.softtek.entity.Local;
 import br.com.softtek.entity.Logs;
 import br.com.softtek.entity.Sintoma;
-import br.com.softtek.entity.Tarefa;
 import br.com.softtek.entity.Usuario;
 
-// import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
-import java.util.InputMismatchException;
-// import java.util.InputMismatchException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Utilitario {
@@ -36,9 +34,11 @@ public class Utilitario {
     Logs logs2 = new Logs();
     Sintoma sintoma1 = new Sintoma();
     Sintoma sintoma2 = new Sintoma();
-    Tarefa tarefa = new Tarefa();
     Usuario usuario1 = new Usuario();
     Usuario usuario2 = new Usuario();
+    
+    List<Chamado> totalChamados = new ArrayList<>();
+    List<Logs> totalLogs = new ArrayList<>();
 
     public void Instanciar() {
         analista1
@@ -46,66 +46,64 @@ public class Utilitario {
             .setGrupo(grupo1)
             .setNome("Ricardo Almeida Pires")
             .setEmail("teste")
-            .setCategoria(null);
+            .setCategoria(Analista.Categoria.ACESSO);
         analista2
             .setId(2)
             .setGrupo(grupo2)
             .setNome("Amanda Rocha Nascimento")
             .setEmail("Amanda.Rocha@sofftekHP.com.br")
-            .setCategoria(null);
+            .setCategoria(Analista.Categoria.AMS);
         analista3
             .setId(3)
             .setGrupo(grupo2)
             .setNome("Rafael Pereira")
             .setEmail("Rafael.Pereira@sofftekHP.com.br")
-            .setCategoria(null);
+            .setCategoria(Analista.Categoria.FIELD);
         analista4
             .setId(4)
             .setGrupo(grupo1)
             .setNome("Mariana Alves Campos")
             .setEmail("Mariana.Alves@sofftekHP.com.br")
-            .setCategoria(null);  
+            .setCategoria(Analista.Categoria.SERVICE_DESK);  
         categoria1
             .setId(1)
             .setSintoma(sintoma1)  
-            .setTipo(null)
-            .setSubTipo(null);
+            .setTipo(Categoria.Tipo.ACESSOS)
+            .setSubTipo(Categoria.SubTipo.ADAPT);
         categoria2
             .setId(2)
             .setSintoma(sintoma2)  
-            .setTipo(null)
-            .setSubTipo(null);
+            .setTipo(Categoria.Tipo.EQUIPAMENTO_TI)
+            .setSubTipo(Categoria.SubTipo.TROCA_EQUIPAMENTO);
         categoria3
             .setId(3)
             .setSintoma(sintoma1)  
-            .setTipo(null)
-            .setSubTipo(null);
+            .setTipo(Categoria.Tipo.OUTROS_SISTEMAS)
+            .setSubTipo(Categoria.SubTipo.LIBERACAO_ACESSO);
 
         chamado1
             .setId(1)
-            .setChamado(null)
             .setCategoria(categoria1)
             .setGrupo(grupo2)
             .setAnalista(analista2)
             .setUsuario(usuario1)
             .setNumero("67789001")
-            .setTipo(null)
-            .setStatus(null)
-            .setPrioridade(null)
+            .setTipo(Chamado.Tipo.PROBLEMA)
+            .setStatus(Chamado.Status.ABERTO)
+            .setPrioridade(Chamado.Prioridade.ALTO)
             .setDescricao("Problema referente ao ....")
             .setAbertura(LocalDateTime.of(2024, 7, 21, 10, 42, 36))
             .setUltimaAtualizacao(LocalDateTime.of(2024, 7, 21, 16, 07, 28));
         chamado2
             .setId(2)
-            .setChamado(null)
             .setCategoria(categoria2)
             .setGrupo(grupo1)
             .setAnalista(analista4)
             .setUsuario(usuario2)
             .setNumero("67789002")
-            .setTipo(null)
-            .setStatus(null)
-            .setPrioridade(null)
+            .setTipo(Chamado.Tipo.PROBLEMA)
+            .setStatus(Chamado.Status.RESOLVIDO)
+            .setPrioridade(Chamado.Prioridade.ALTO)
             .setDescricao("Problema referente ao ....")
             .setAbertura(LocalDateTime.of(2024, 7, 28, 8, 19, 06))
             .setUltimaAtualizacao(LocalDateTime.of(2024, 7, 11, 13, 16, 57));
@@ -143,15 +141,6 @@ public class Utilitario {
             .setId(2)
             .setNome("Problemas na tela")
             .setQualificacao("Qualificação");
-        tarefa
-            .setId(1)
-            .setChamado(chamado1)
-            .setAnalista(analista3)
-            .setDataAbertura(LocalDateTime.of(2024, 7, 21, 12, 02, 50))
-            .setDataEncerramento(null)
-            .setNumero("334")
-            .setStatus(null)
-            .setDescricao("Descrição da tarefa do chamado 1");
         usuario1
             .setId(1)
             .setNome("Roberto Almeida Santos")
@@ -166,9 +155,16 @@ public class Utilitario {
             .setSenha("ABC123")
             .setDescricao("Descrição usuário 2")
             .setTelefone("(21) 98871 - 5241");
+        
+        totalChamados.add(chamado1);
+        totalChamados.add(chamado2);
+        
+        totalLogs.add(logs1);
+        totalLogs.add(logs2);
+        
     }
 
-    public void LoginUsuario() {
+    public void loginUsuario() {
 
         boolean acesso = false;
 
@@ -196,7 +192,7 @@ public class Utilitario {
         } while (!acesso); 
     }
 
-    public void LoginAnalista() {
+    public void loginAnalista() {
         boolean acesso = false;
 
         String acesso_email[] = {analista1.getEmail(), analista2.getEmail(), analista3.getEmail(), analista4.getEmail()};
@@ -222,7 +218,7 @@ public class Utilitario {
         } while (!acesso);
     }
 
-    public int MenuUsuario() {
+    public int menuUsuario() {
         System.out.println("\n Acessando como Usuário... \n");
         System.out.println("\n\n ------------------- Bem vindo a Softtek Help Center ------------------- \n");
         System.out.println("Selecione uma das opções a seguir: "); 
@@ -234,54 +230,33 @@ public class Utilitario {
         return op;
     }
 
-    public int MenuAnalista() {
+    public int menuAnalista() {
         System.out.println("\n Acessando como Analista... \n");
         System.out.println("\n\n ------------------- Bem vindo a Softtek Help Center ------------------- \n");
         // Colocar as opções das funcionalidades de cada acesso aqui
         System.out.println("Selecione uma das opções a seguir: "); 
-        System.out.println("1 ---- Funcionalidade 1");
-        System.out.println("2 ---- Funcionalidade 2");
+        System.out.println("1 ---- Exibir Dashboard");
+        System.out.println("2 ---- Detalhes do Chamado");
         System.out.print("\nDigite: ");
         int op = sc.nextInt();
         return op;
     }
 
-    public void LimparEntradaInvalida()
+    public void limparEntradaInvalida()
     {
         if (sc.hasNext())
             sc.next();
     }
 
-    public void visualizarChamados() {
-        System.out.println("\n--------------- Chamados Abertos ---------------\n");
-        System.out.println("Chamado: \n" + 
-        "\nPosição: " + chamado1.getId() +
-        "\nChamado: " + chamado1.getChamado() + 
-        "\nCategoria: " + chamado1.getCategoria() + 
-        "\nGrupo: " + chamado1.getGrupo() +
-        "\nAnalista: " + chamado1.getAnalista() +
-        "\nUsuario: " + chamado1.getUsuario() + 
-        "\nNúmero: " + chamado1.getNumero() + 
-        "\nTipo: " + chamado1.getTipo() + 
-        "\nStatus: " + chamado1.getStatus() + 
-        "\nPrioridade: " + chamado1.getPrioridade() + 
-        "\nDescrição: " + chamado1.getDescricao() +
-        "\nData de abertura: " + chamado1.getAbertura() +
-        "\nÚltima atualização: " + chamado1.getUltimaAtualizacao());
-        
-        System.out.println("\nPosição: " + chamado2.getId() +
-        "\nChamado: " + chamado2.getChamado() + 
-        "\nCategoria: " + chamado2.getCategoria() + 
-        "\nGrupo: " + chamado2.getGrupo() +
-        "\nAnalista: " + chamado2.getAnalista() +
-        "\nUsuario: " + chamado2.getUsuario() + 
-        "\nNúmero: " + chamado2.getNumero() + 
-        "\nTipo: " + chamado2.getTipo() + 
-        "\nStatus: " + chamado2.getStatus() + 
-        "\nPrioridade: " + chamado2.getPrioridade() + 
-        "\nDescrição: " + chamado2.getDescricao() +
-        "\nData de abertura: " + chamado2.getAbertura() +
-        "\nÚltima atualização: " + chamado2.getUltimaAtualizacao());    
+    public void exibirDashboard() {
+        System.out.println("\n\n ------------------- Softtek Help Center - Dashboard ------------------- \n");
+        Chamado.situacaoChamado(totalChamados);
+        Chamado.listarChamados(totalChamados);
     }
-
+    
+    public void detalhesChamado() {
+        System.out.println("\n\n ------------------- Softtek Help Center - Detalhes ------------------- \n");
+        Chamado.informacoesChamado(chamado1);
+        Logs.exibirLogs(totalLogs,chamado1);
+    }
 }

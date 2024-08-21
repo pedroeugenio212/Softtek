@@ -16,6 +16,8 @@ public class Resolvido {
     }
 
     public Chamado getChamado() {
+        if(chamado == null)
+            chamado = new Chamado();
         return chamado;
     }
 
