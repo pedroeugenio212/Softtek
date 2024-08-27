@@ -13,8 +13,6 @@ public class Main
         util.Instanciar();
 
         int op;
-        util.exibirDashboard();
-        util.detalhesChamado();
 
         System.out.println("\n\n ------------------- Iniciando ------------------- \n");
 

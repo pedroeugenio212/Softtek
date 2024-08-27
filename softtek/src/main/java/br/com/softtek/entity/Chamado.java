@@ -223,7 +223,7 @@ public class Chamado {
                 default -> System.out.println("Status inválido");
             }
         }
-        System.out.println("- Situação dos Chamados - \nAbertos: " + aberto +
+        System.out.println("\n- Situação dos Chamados - \nAbertos: " + aberto +
                 "\nAtribuídos: " + atribuido +
                 "\nEm Espera: " + emEspera +
                 "\nResolvidos: " + resolvido);
