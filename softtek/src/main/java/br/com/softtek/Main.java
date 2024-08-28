@@ -12,40 +12,37 @@ public class Main
         
         util.Instanciar();
 
-        int op;
+        int op = -1;
 
         System.out.println("\n\n ------------------- Iniciando ------------------- \n");
 
         System.out.println("\nPara acessar o programa, por favor, selecione a forma de login.\n");
-        System.out.println("1 ---- Usuário.");
-        System.out.println("2 ---- Analista.");
-        System.out.println("0 ---- Sair.");
 
-
-        try { 
-            System.out.print("\nInsira uma opção: ");
-            op = sc.nextInt();
-            switch (op) {
-                case 1 -> {
-                    util.loginUsuario();
-                    util.menuUsuario();
+        while(op != 0) {
+            try {
+                System.out.println("1 ---- Usuário.");
+                System.out.println("2 ---- Analista.");
+                System.out.println("0 ---- Sair.");
+                System.out.print("\nInsira uma opção: ");
+                op = sc.nextInt();
+                switch (op) {
+                    case 1 -> {
+                        util.loginUsuario();
+                        util.menuUsuario();
+                    }
+                    case 2 -> {
+                        util.loginAnalista();
+                        util.menuAnalista();
+                    }
+                    case 0 -> System.out.println("\nFinalizando programa.\n");
+                    default -> System.out.println("Opção inválida. Por favor, insira uma opção válida.");
                 }
-                case 2 -> {
-                    util.loginAnalista();
-                    util.menuAnalista();
-                }
-                case 0 -> System.err.println("\nFinalizando programa.\n");
-                default -> {
-                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, insira um número.");
+                sc.nextLine();
+                op = -1;
             }
-        } catch (InputMismatchException e)
-        {
-            System.out.println("Entrada inválida. Por favor, insira um número.");
-            util.limparEntradaInvalida();
-            op = -1;
         }
-
         sc.close();
-    
     }
 }

@@ -3,6 +3,8 @@ package br.com.softtek;
 import br.com.softtek.entity.Analista;
 import br.com.softtek.entity.Categoria;
 import br.com.softtek.entity.Chamado;
+import br.com.softtek.entity.Chamado.Prioridade;
+import br.com.softtek.entity.Chamado.Tipo;
 import br.com.softtek.entity.Grupo;
 import br.com.softtek.entity.Local;
 import br.com.softtek.entity.Logs;
@@ -10,10 +12,12 @@ import br.com.softtek.entity.Sintoma;
 import br.com.softtek.entity.Usuario;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.Locale;
 
 public class Utilitario {
     
@@ -47,25 +51,25 @@ public class Utilitario {
             .setId(1)
             .setGrupo(grupo1)
             .setNome("Ricardo Almeida Pires")
-            .setEmail("ricardo.almeida@sofftekhp.com.br")
+            .setEmail("ricardo.almeida@softtekhp.com.br")
             .setCategoria(Analista.Categoria.ACESSO);
         analista2
             .setId(2)
             .setGrupo(grupo2)
             .setNome("Amanda Rocha Nascimento")
-            .setEmail("amanda.rocha@sofftekhp.com.br")
+            .setEmail("amanda.rocha@softtekhp.com.br")
             .setCategoria(Analista.Categoria.AMS);
         analista3
             .setId(3)
             .setGrupo(grupo2)
             .setNome("Rafael Pereira")
-            .setEmail("rafael.pereira@sofftekhp.com.br")
+            .setEmail("rafael.pereira@softtekhp.com.br")
             .setCategoria(Analista.Categoria.FIELD);
         analista4
             .setId(4)
             .setGrupo(grupo1)
             .setNome("Mariana Alves Campos")
-            .setEmail("mariana.alves@sofftekhp.com.br")
+            .setEmail("mariana.alves@softtekhp.com.br")
             .setCategoria(Analista.Categoria.SERVICE_DESK);  
         categoria1
             .setId(1)
@@ -106,14 +110,14 @@ public class Utilitario {
             .setTipo(Chamado.Tipo.PROBLEMA)
             .setStatus(Chamado.Status.RESOLVIDO)
             .setPrioridade(Chamado.Prioridade.ALTO)
-            .setDescricao("Problema referente ao ....")
+            .setDescricao("Problema referente ao acesso")
             .setAbertura(LocalDateTime.of(2024, 7, 28, 8, 19, 06))
             .setUltimaAtualizacao(LocalDateTime.of(2024, 7, 11, 13, 16, 57));
         grupo1
-            .setId(4557)
+            .setId(1)
             .setNome("Suporte ao Usuário");
         grupo2
-            .setId(4123)
+            .setId(2)
             .setNome("Técnicos de equipamentos");
         local1
             .setId(1)
@@ -146,14 +150,14 @@ public class Utilitario {
         usuario1
             .setId(1)
             .setNome("Roberto Almeida Santos")
-            .setEmail("roberto@sofftekhp.com.br")
+            .setEmail("roberto@softtekhp.com.br")
             .setSenha("123456")
             .setDescricao("Roberto Almeida Santos, é um gerente do departamento de Rh na nossa sede em Monterrey México.")
             .setTelefone("(11) 97879 - 9901");
         usuario2
             .setId(2)
             .setNome("Ana Maria de Souza")
-            .setEmail("anams@sofftekhp.com.br")
+            .setEmail("anams@softtekhp.com.br")
             .setSenha("ABC123")
             .setDescricao("Descrição usuário 2")
             .setTelefone("(21) 98871 - 5241");
@@ -267,15 +271,14 @@ public class Utilitario {
                         break;
                     }
                     default -> {
-                        System.out.println("\nInsira uma opção válida!");
-                        System.out.println("\n");
+                        System.out.println("\nInsira uma opção válida!\n");
                         menuUsuarioOp();
                     }
                 }
             } catch (InputMismatchException e)
             {
                 System.out.println("Entrada inválida. Por favor, insira um número.");
-                limparEntradaInvalida();
+                sc.nextLine();
                 op = -1;
             }
         } while (op != 4);
@@ -324,24 +327,17 @@ public class Utilitario {
                         break;
                     }
                     default -> {
-                        System.out.println("\nInsira uma opção válida!");
-                        System.out.println("\n");
+                        System.out.println("\nInsira uma opção válida!\n");
                         menuAnalistaOp();
                     }
                 }
             } catch (InputMismatchException e)
             {
                 System.out.println("Entrada inválida. Por favor, insira um número.");
-                limparEntradaInvalida();
+                sc.nextLine();
                 op = -1;
             }
         } while (op != 4);        
-    }
-
-    public void limparEntradaInvalida()
-    {
-        if (sc.hasNext())
-            sc.next();
     }
 
     public void exibirDashboard() {
@@ -357,46 +353,117 @@ public class Utilitario {
     }
 
     public void novoChamado(){
+        Chamado.Tipo tipoSelecionado = null;
+        Chamado.Prioridade prioridadeSelecionada = null;
+        Categoria.Tipo categoriaSelecionada = null;
+        
         System.out.println("\n\n ------------------- Softtek Help Center - Novo Chamado ------------------- \n");
         System.out.println("Preencha o formulário a seguir para abrir seu novo chamado.\n");
-
+       
+        
+        System.out.println("\nSelecione o Tipo do chamado:");
+        for (Tipo tipo : Tipo.values()) {
+            System.out.println(tipo.ordinal() + " - " + tipo);
+        }
+        while (tipoSelecionado == null) {
+            System.out.print("\nDigite o número correspondente ao Tipo: ");
+            
+            try {
+                int escolha = sc.nextInt();
+                
+                if (escolha >= 0 && escolha < Tipo.values().length) {
+                    tipoSelecionado = Tipo.values()[escolha];
+                } else {
+                    System.out.println("Opção inválida. Tente novamente.");
+                }
+            } catch(InputMismatchException e){
+                System.out.println("Entrada inválida. Por favor, insira um número.");
+                sc.nextLine();
+            }
+        }
+        
+        System.out.println("\nSelecione a Prioridade do chamado:");
+        for (Prioridade prioridade : Prioridade.values()) {
+            System.out.println(prioridade.ordinal() + " - " + prioridade);
+        }
+        while (prioridadeSelecionada == null) {
+            System.out.print("\nDigite o número correspondente a Prioridade: ");
+            
+            try {
+                int escolha = sc.nextInt();
+            
+                if (escolha >= 0 && escolha < Prioridade.values().length) {
+                    prioridadeSelecionada = Prioridade.values()[escolha];
+                } else {
+                    System.out.println("Opção inválida. Tente novamente.");
+                }
+            } catch(InputMismatchException e){
+                System.out.println("Entrada inválida. Por favor, insira um número.");
+                sc.nextLine();
+            }
+        }
+        
+        System.out.println("\nSelecione a Categoria do chamado:");
+        for (Categoria.Tipo categoria : Categoria.Tipo.values()) {
+            System.out.println(categoria.ordinal() + " - " + categoria);
+        }
+        while (categoriaSelecionada == null) {
+            System.out.print("\nDigite o número correspondente a Categoria: ");
+            
+            try {
+                int escolha = sc.nextInt();
+            
+                if (escolha >= 0 && escolha < Categoria.Tipo.values().length) {
+                    categoriaSelecionada = Categoria.Tipo.values()[escolha];
+                } else {
+                    System.out.println("Opção inválida. Tente novamente.");
+                }
+            } catch(InputMismatchException e){
+                System.out.println("Entrada inválida. Por favor, insira um número.");
+                sc.nextLine();
+            }
+        }
+        
+        System.out.println("\nSelecione o Grupo a qual o chamado pertence:");
+        System.out.println("(1) " + grupo1.getNome() + " / (2) " + grupo2.getNome());
+        System.out.println("\nDigite o número correspondente ao Grupo: ");
+        switch(sc.nextInt()){
+            case 1 -> chamadoUsuario.setGrupo(grupo1);
+            case 2 -> chamadoUsuario.setGrupo(grupo2);
+            default -> System.out.println("Opção inválida. Por favor, insira uma opção válida.");
+        }
+        sc.nextLine();
+        
+        System.out.println("\nInsira a descrição do chamado: ");
+        chamadoUsuario.setDescricao(sc.nextLine());
+        
         chamadoUsuario.setId(3)
             .setNumero("67789003")
-            .setCategoria(null) 
-            .setGrupo(null)
-            .setAnalista(null)
-            .setUsuario(null)
-            .setUltimaAtualizacao(null)
+            .setUsuario(usuario1)
+            .setUltimaAtualizacao(LocalDateTime.now())
             .setAbertura(LocalDateTime.now())
-            .setTipo(null)
+            .setTipo(tipoSelecionado)
             .setStatus(Chamado.Status.ABERTO)
-            .setPrioridade(null);
-
-        // .setTipo(Chamado.Tipo.PROBLEMA)
-        // .setStatus(Chamado.Status.RESOLVIDO)
-        // .setPrioridade(Chamado.Prioridade.ALTO)
+            .setPrioridade(prioridadeSelecionada)
+            .getCategoria().setTipo(categoriaSelecionada);
         
-        System.out.println("\nInsira a descrição do chamado: ");    
-        String descricao = sc.nextLine();
-        chamadoUsuario.setDescricao(descricao);
-
         System.out.print("\nChamado aberto com sucesso!");
     }
 
     public void detalhesNovoChamado(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy, HH:mm", new Locale("pt", "BR"));
         System.out.println("\n\n ------------------- Softtek Help Center - Detalhes sobre o novo chamado ------------------- \n");
         
         if(chamadoUsuario.getId() == 3) {
             System.out.println("\nOlá " + usuario1.getNome() + ",\n\nNo momento o chamado que você abriu recentemente está aguardando a verificação de um analista!");
-            System.out.println("\nAcompanhe os detalhes:" +
-            "\nNúmero do chamado: " + chamadoUsuario.getNumero() +
-            "\nCategoria: " + chamadoUsuario.getCategoria() +
-            "\nTipo: " + chamadoUsuario.getTipo() +
-            "\nStatus: " + chamadoUsuario.getStatus() +
-            "\nPrioridade: " + chamadoUsuario.getPrioridade() +
-            "\nGrupo responsável: " + chamadoUsuario.getGrupo() +
-            "\nAnalista responsável: " + chamadoUsuario.getAnalista() +
-            "\nData / Hora da abertura: " + chamadoUsuario.getAbertura() +
+            System.out.println("\nAcompanhe os detalhes:\nNúmero do chamado: " + chamadoUsuario.getNumero() +
+            "\nCategoria: " + chamadoUsuario.getCategoria().getTipo().toString() +
+            "\nTipo: " + chamadoUsuario.getTipo().toString() +
+            "\nStatus: " + chamadoUsuario.getStatus().toString() +
+            "\nPrioridade: " + chamadoUsuario.getPrioridade().toString() +
+            "\nGrupo responsável: " + chamadoUsuario.getGrupo().getNome() +
+            "\nAnalista responsável: " + (chamadoUsuario.getAnalista().getNome() != null ? chamadoUsuario.getAnalista().getNome() : "Nenhum") +
+            "\nData / Hora da abertura: " + chamadoUsuario.getAbertura().format(formatter) +
             "\nDescrição: " + chamadoUsuario.getDescricao());
         } else {
             System.out.println("\nNenhum chamado aberto no momento!");
@@ -413,9 +480,9 @@ public class Utilitario {
         System.out.println("\n\n ------------------- Softtek Help Center - Perfil ------------------- \n");
         System.out.println("Olá " + usuario1.getNome() + 
         ",\n\nConfira os detalhes do seu perfil:\n\nNome: " + usuario1.getNome() + 
-        ",\nEmail: " + usuario1.getEmail() +
-        ",\nSenha: " + usuario1.getSenha() + 
-        ",\nDescrição: " + usuario1.getDescricao() +
+        "\nEmail: " + usuario1.getEmail() +
+        "\nSenha: " + usuario1.getSenha() + 
+        "\nDescrição: " + usuario1.getDescricao() +
         "\nTelefone:" + usuario1.getTelefone());  
     }
 }

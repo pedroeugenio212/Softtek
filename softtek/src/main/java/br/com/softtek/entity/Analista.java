@@ -76,5 +76,9 @@ public class Analista {
         return Character.toUpperCase(name.charAt(0)) + name.substring(1).replace('_', ' ');
         }
     }
-    
+
+    @Override
+    public String toString() {
+        return nome != null ? nome : "Nenhum";
+    }
 }
